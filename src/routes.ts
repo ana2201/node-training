@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import { getMain, getMessage, getTest } from './controllers/index.js'
+import { getMain, getMessage, getTest } from './controllers/index'
 
 const router = Router()
 
