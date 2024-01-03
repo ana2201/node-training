@@ -1,7 +1,11 @@
-import  { Request, Response } from "express";
+import  { Request, Response } from 'express';
+
+const getMainMessage = (req: Request, res: Response) => {
+  res.send('Hello World!');
+};
 
 const getMessage = (req: Request, res: Response) => {
-  res.send(`Hello ${req.query.message}`)
-}
+  res.send(`Hello ${req.query.message}`);
+};
 
-export { getMessage }
+export { getMessage, getMainMessage };

@@ -1,14 +1,15 @@
-import { Router } from 'express'
+import { Router } from 'express';
 
-import { getMain, getMessage, getTest } from './controllers/index'
+import { getMainMessage, getMessage } from './controllers/message-controller';
+import { getTest} from './controllers/tests-controller';
 
-const router = Router()
+const router = Router();
 
-router.get('/', getMain)
+router.get('/', getMainMessage);
 
-router.get('/tests/:testID', getTest)
+router.get('/message', getMessage);
 
-router.get('/message', getMessage)
+router.get('/tests/:testID', getTest);
 
 
 export default router;
