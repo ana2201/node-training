@@ -1,12 +1,15 @@
 import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
 
 import router from './routes';
-import { loggerMiddleware } from './middleware/message-middleware';
+
 
 const app = express();
 const port = 3000;
 
-app.use(loggerMiddleware);
+app.use(cors());
+app.use(helmet());
 
 app.use('', router);
 

@@ -7,9 +7,9 @@ import { loggerMiddleware } from './middleware/message-middleware';
 
 const router = Router();
 
-router.get('/', loggerMiddleware, getMainMessage);
+router.get('/', getMainMessage);
 
-router.get('/message', getMessage);
+router.get('/message', loggerMiddleware, getMessage);
 
 router.get('/tests/:testID', getTestID);
 
