@@ -1,15 +1,16 @@
 import { Router } from 'express';
 
 import { getMainMessage, getMessage } from './controllers/message-controller';
-import { getTest} from './controllers/tests-controller';
+import { getTestID } from './controllers/tests-controller';
+
+import { loggerMiddleware } from './middleware/message-middleware';
 
 const router = Router();
 
 router.get('/', getMainMessage);
 
-router.get('/message', getMessage);
+router.get('/message', loggerMiddleware, getMessage);
 
-router.get('/tests/:testID', getTest);
-
+router.get('/tests/:testID', getTestID);
 
 export default router;
