@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-async function main() {
+async function createUser() {
   const user = await prisma.user.create({
     data: {
       name: 'Alice',
@@ -10,6 +10,22 @@ async function main() {
     },
   });
   console.log(user);
+}
+
+async function updateUserLastname(data: {id: number, lastname: string}) {
+  const user = await prisma.user.update({
+    where: { id: data.id },
+    data: { lastname: data.lastname }
+  });
+  console.log(user);
+}
+
+async function main() {
+  // first version
+  // await createUser();
+
+  // second version: update 
+  await updateUserLastname({ id:1, lastname: 'Carroll'});
 }
 
 main()
