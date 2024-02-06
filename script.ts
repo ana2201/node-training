@@ -6,26 +6,35 @@ async function createUser() {
   const user = await prisma.user.create({
     data: {
       name: 'Alice',
+      lastname: 'Carroll',
       email: 'alice@prisma.io',
+      password: 'pw'
     },
   });
   console.log(user);
 }
 
-async function updateUserLastname(data: {id: number, lastname: string}) {
+async function updateUser(data: {id: number, password: string}) {
   const user = await prisma.user.update({
     where: { id: data.id },
-    data: { lastname: data.lastname }
+    data: { password: data.password }
   });
   console.log(user);
 }
 
+async function getUser(data: {id: number}) {
+  const u = await prisma.user.findFirst({
+    where: {id: data.id}
+  });
+  console.log(u);
+}
+
 async function main() {
-  // first version
   // await createUser();
 
-  // second version: update 
-  await updateUserLastname({ id:1, lastname: 'Carroll'});
+  // await updateUser({ id:1, password: 'pw123'});
+  
+  await getUser({ id:1});
 }
 
 main()
