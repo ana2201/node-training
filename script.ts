@@ -14,27 +14,18 @@ async function createUser() {
   console.log(user);
 }
 
-async function updateUser(data: {id: number, password: string}) {
+async function updateUserLastname(data: {id: number, lastname: string}) {
   const user = await prisma.user.update({
     where: { id: data.id },
-    data: { password: data.password }
+    data: { password: data.lastname }
   });
   console.log(user);
-}
-
-async function getUser(data: {id: number}) {
-  const u = await prisma.user.findFirst({
-    where: {id: data.id}
-  });
-  console.log(u);
 }
 
 async function main() {
   // await createUser();
 
-  // await updateUser({ id:1, password: 'pw123'});
-  
-  await getUser({ id:1});
+  await updateUserLastname({ id:1, lastname: 'lastname'});
 }
 
 main()
@@ -44,6 +35,4 @@ main()
   .catch(async (e) => {
     console.error(e);
     await prisma.$disconnect();
-    // eslint-disable-next-line no-undef
-    process.exit(1);
   });
