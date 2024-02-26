@@ -9,7 +9,7 @@ const router = Router();
 
 router.get('/', getMainMessage);
 
-router.get('/users/:userID', getUser);
+router.get('/users/:userId', getUser);
 
 router.get('/message', loggerMiddleware, getMessage);
 
