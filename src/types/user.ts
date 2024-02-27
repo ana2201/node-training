@@ -5,3 +5,5 @@ export interface User {
   lastname:  string
   password: string
 }
+
+export type UserCreationParams = Omit<User, 'id'>;

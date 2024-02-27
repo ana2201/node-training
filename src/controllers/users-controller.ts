@@ -7,9 +7,8 @@ import {
   Body
 } from 'tsoa';
 
-import { UserCreationParams, UsersService } from '../services/users-service';
-
-import { User } from './user';
+import { UsersService } from '../services/users-service';
+import { User, UserCreationParams } from '../types/user';
 
 @Route('users')
 export class UsersController extends Controller {
@@ -17,13 +16,13 @@ export class UsersController extends Controller {
   public async getUser(
     @Path() userID: number
   ): Promise<User | null> {
-    return new UsersService().get(userID);
+    return new UsersService().getUser(userID);
   }
 
   @Post()
   public async createUser(
     @Body() requestBody: UserCreationParams
   ): Promise<void> {
-    new UsersService().create(requestBody);
+    new UsersService().createUser(requestBody);
   }
 }
