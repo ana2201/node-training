@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import { getMainMessage, getMessage } from './controllers/message-controller';
-import { getTestID } from './controllers/tests-controller';
+import { getUser } from './controllers/users-controller';
 
 import { loggerMiddleware } from './middleware/message-middleware';
 
@@ -9,8 +9,8 @@ const router = Router();
 
 router.get('/', getMainMessage);
 
-router.get('/message', loggerMiddleware, getMessage);
+router.get('/users/:userId', getUser);
 
-router.get('/tests/:testID', getTestID);
+router.get('/message', loggerMiddleware, getMessage);
 
 export default router;
