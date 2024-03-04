@@ -1,11 +1,18 @@
-import  { Request, Response } from 'express';
+import {
+  Controller,
+  Get,
+  Query,
+  Route,
+} from 'tsoa';
 
-const getMainMessage = (req: Request, res: Response) => {
-  res.send('Hello World!');
-};
+import { MessageService } from '../services/message-service';
 
-const getMessage = (req: Request, res: Response) => {
-  res.send(`Hello ${req.query.message}`);
-};
-
-export { getMessage, getMainMessage };
+@Route('message')
+export class MessagesController extends Controller {
+  @Get()
+  public async getMessage(
+    @Query() message: string
+  ): Promise<string> {
+    return new MessageService().get(message);
+  }
+}
