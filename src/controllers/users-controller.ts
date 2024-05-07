@@ -15,14 +15,17 @@ export class UsersController extends Controller {
   @Get('{userID}')
   public async getUser(
     @Path() userID: number
-  ): Promise<User | null> {
-    return new UsersService().getUser(userID);
+  ): Promise<User | string> {
+    const user = await new UsersService().getUser(userID);
+
+    return user ?? 'the user does not exist';
   }
 
   @Post()
   public async createUser(
     @Body() requestBody: UserCreationParams
-  ): Promise<void> {
-    new UsersService().createUser(requestBody);
+  ) {
+    const user = await new UsersService().createUser(requestBody);
+    return `${user.email} created`;
   }
 }

@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/app.js",
-    "dev": "nodemon src/app.ts",
+    "dev": "nodemon src/server.ts",
+    "update-routes": "tsoa routes",
     "seed": "npx ts-node prisma/seed.ts"
   },
   "author": "",
