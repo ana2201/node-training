@@ -12,11 +12,11 @@ import { User, UserCreationParams } from '../types/user';
 
 @Route('users')
 export class UsersController extends Controller {
-  @Get('{userID}')
+  @Get('{userId}')
   public async getUser(
-    @Path() userID: number
+    @Path() userId: number
   ): Promise<User | string> {
-    const user = await new UsersService().getUser(userID);
+    const user = await UsersService.getUser(userId);
 
     return user ?? 'the user does not exist';
   }
@@ -25,7 +25,7 @@ export class UsersController extends Controller {
   public async createUser(
     @Body() requestBody: UserCreationParams
   ) {
-    const user = await new UsersService().createUser(requestBody);
+    const user = await UsersService.createUser(requestBody);
     return `${user.email} created`;
   }
 }

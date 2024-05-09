@@ -5,14 +5,14 @@ import { User, UserCreationParams } from '../types/user';
 const prisma = new PrismaClient();
 
 export class UsersService {
-  public async getUser(id: number): Promise<User | null> {
+  static async getUser(id: number): Promise<User | null> {
     const user = await prisma.user.findUnique({
       where: {id}
     });
     return user;
   }
 
-  public async createUser(userCreationParams: UserCreationParams): Promise<User> {
+  static async createUser(userCreationParams: UserCreationParams): Promise<User> {
     const user = await prisma.user.create({
       data: {
         name: userCreationParams.name,

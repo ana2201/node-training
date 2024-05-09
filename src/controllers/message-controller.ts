@@ -16,6 +16,6 @@ export class MessagesController extends Controller {
   public async getMessage(
     @Query() message: string
   ): Promise<string> {
-    return new MessageService().get(message);
+    return MessageService.get(message);
   }
 }
