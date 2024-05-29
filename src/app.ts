@@ -20,4 +20,4 @@ RegisterRoutes(app);
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-export {app};
+export { app };

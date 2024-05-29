@@ -1,6 +1,10 @@
 import { Response,  Request, NextFunction } from 'express';
 import { ValidateError } from 'tsoa';
 
+import { ApiError } from '../utils/apiError';
+import { ErrorInterface } from '../types/error';
+import { errors } from '../utils/errors';
+
 export function notFoundHandler(_req: Request,res: Response) {
   res.status(404).send({  message: 'Page not found' });
 }
@@ -11,19 +15,20 @@ export function errorHandler(
   res:  Response,
   next: NextFunction
 ):  Response | void {
-  if (err instanceof ValidateError) {
-    console.log(`Validation error for ${req.path}:`, err.fields.message.message);
-    return res.status(422).json({
-      message: 'Validation Failed',
-      details: err.fields.message,
-    });
+  let response:ErrorInterface;
+
+  if (err instanceof ApiError) {
+    response = {
+      httpCode: err.httpCode,
+      errorCode: err.errorCode,
+      description: err.message,
+    };
+  } else if (err instanceof ValidateError) {
+    response = errors.VALIDATION_ERROR;
+  } else {
+    response = errors.INTERNAL_SERVER_ERROR;
   }
 
-  if (err instanceof Error) {
-    return res.status(500).json({
-      message: 'Internal Server Error',
-    });
-  }
-  
+  res.status(response.httpCode).send(response);
   next();
 }
