@@ -10,7 +10,7 @@ export function notFoundHandler(_req: Request,res: Response) {
 }
 
 export function errorHandler(
-  err: unknown,
+  err: any,
   req:  Request,
   res:  Response,
   next: NextFunction

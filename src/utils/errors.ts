@@ -5,8 +5,8 @@ export const errors = {
     description: 'User not found',
   },
   USER_CREATION_CONFLICT: {
-    httpCode: 409,
-    errorCode: 409_000,
+    httpCode: 422,
+    errorCode: 422_001,
     description: 'User already exists',
   },
   VALIDATION_ERROR: {
