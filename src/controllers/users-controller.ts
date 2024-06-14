@@ -1,20 +1,29 @@
-import  { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import {
+  Controller,
+  Post,
+  Get,
+  Path,
+  Route,
+  Body
+} from 'tsoa';
 
-const prisma = new PrismaClient();
+import { UsersService } from '../services/users-service';
+import { UserCreationParams } from '../types/user';
 
-const getUser = async (req: Request, res: Response) => {
-  try {
-    const id = Number(req.params.userId);
+@Route('users')
+export class UsersController extends Controller {
+  @Get('{userId}')
+  public async getUser(@Path() userId: number) {
+    const user = await UsersService.getUser(userId);
 
-    const u = await prisma.user.findUnique({
-      where: {id}
-    });
-
-    res.send(u ? `User information --> ${JSON.stringify(u)}` : 'the user does not exist');
-  } catch (error) {
-    res.status(400).send('The id must be a number'); 
+    return user;
   }
-};
 
-export { getUser };
+  @Post()
+  public async createUser(
+    @Body() requestBody: UserCreationParams
+  ) {
+    const user = await UsersService.createUser(requestBody);
+    return user;
+  }
+}

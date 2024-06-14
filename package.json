@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/app.js",
-    "dev": "nodemon src/app.ts",
+    "dev": "nodemon src/server.ts",
+    "update-routes": "tsoa routes",
     "seed": "npx ts-node prisma/seed.ts"
   },
   "author": "",
@@ -15,7 +15,8 @@
     "@prisma/client": "^5.8.1",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "helmet": "^7.1.0"
+    "helmet": "^7.1.0",
+    "tsoa": "^6.0.1"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",

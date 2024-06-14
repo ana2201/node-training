@@ -5,9 +5,11 @@
 
     /* Modules */
     "module": "commonjs",                                /* Specify what module code is generated. */
-    "rootDir": "src/",                                  /* Specify the root folder within your source files. */                        /* Conditions to set in addition to the resolver-specific defaults when resolving imports. */
+    // "rootDir": "./src",                                  /* Specify the root folder within your source files. */                        /* Conditions to set in addition to the resolver-specific defaults when resolving imports. */
     "resolveJsonModule": true,                        /* Enable importing .json files. */
-   
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
     /* Emit */
     "outDir": "./dist",
     
@@ -19,6 +21,7 @@
     "strict": true,
     
     /* Completeness */
-    "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
-  }
+    "skipLibCheck": true,                                 /* Skip type checking all .d.ts files. */
+  },
+  "include": ["./src", "./build/**/*.ts"]
 }
