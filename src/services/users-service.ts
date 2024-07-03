@@ -37,4 +37,14 @@ export class UsersService {
       throw e;
     }
   }
+
+  static async deleteUser(id: number): Promise<User> {
+    const user = await prisma.user.findUnique({ where: { id } });
+      
+    if (!user) {
+      throw new ApiError(errors.NOT_FOUND_USER);
+    }
+    
+    return await prisma.user.delete({ where: { id } }); 
+  }
 }
