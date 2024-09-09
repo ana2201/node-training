@@ -43,7 +43,15 @@ describe('User controller: ', () => {
       (UsersService.getUser as jest.Mock<typeof UsersService.getUser>).mockRejectedValue(new ApiError(errors.NOT_FOUND_USER));
     
       await expect(controller.getUser(nonExistentUserId)).rejects.toThrowError(new ApiError(errors.NOT_FOUND_USER));
-    
+      try {
+        await controller.getUser(nonExistentUserId);
+      } catch (error) {
+        const { errorCode, httpCode } = error as ApiError;
+        expect({ errorCode, httpCode }).toEqual({
+          errorCode: errors.NOT_FOUND_USER.errorCode,
+          httpCode: errors.NOT_FOUND_USER.httpCode
+        });
+      }
       expect(UsersService.getUser).toHaveBeenCalledWith(nonExistentUserId);
     });
   });
@@ -60,6 +68,16 @@ describe('User controller: ', () => {
 
       expect(UsersService.createUser).toHaveBeenCalledWith(userParams);
       expect(response).toEqual(createdUser);
+    });
+
+    it('error: duplicated id', async () => {
+      const pw = await bcrypt.hash('DEFAULT_PASSWORD', 10);
+      const user = {...userInfo, password: pw};
+    
+      (UsersService.createUser as jest.Mock<typeof UsersService.createUser>).mockRejectedValue(new ApiError(errors.USER_CREATION_CONFLICT));
+    
+      expect(controller.createUser(user)).rejects.toThrowError(new ApiError(errors.USER_CREATION_CONFLICT));
+      expect(UsersService.createUser).toHaveBeenCalledWith(user);
     });
   });
 
@@ -81,7 +99,7 @@ describe('User controller: ', () => {
     
       (UsersService.deleteUser as jest.Mock<typeof UsersService.deleteUser>).mockRejectedValue(new ApiError(errors.NOT_FOUND_USER));
     
-      await expect(controller.deleteUser(userId)).rejects.toThrowError(new ApiError(errors.NOT_FOUND_USER));
+      expect(controller.deleteUser(userId)).rejects.toThrowError(new ApiError(errors.NOT_FOUND_USER));
       expect(UsersService.deleteUser).toHaveBeenCalledWith(userId);
     });
   });
