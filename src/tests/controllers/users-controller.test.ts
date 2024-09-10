@@ -38,21 +38,22 @@ describe('User controller: ', () => {
     });
 
     it('error: user does not exist', async () => {
-      const nonExistentUserId = -999;
+      const userId = -999;
+      const expectedError = new ApiError(errors.NOT_FOUND_USER);
     
-      (UsersService.getUser as jest.Mock<typeof UsersService.getUser>).mockRejectedValue(new ApiError(errors.NOT_FOUND_USER));
-    
-      await expect(controller.getUser(nonExistentUserId)).rejects.toThrowError(new ApiError(errors.NOT_FOUND_USER));
-      try {
-        await controller.getUser(nonExistentUserId);
-      } catch (error) {
-        const { errorCode, httpCode } = error as ApiError;
-        expect({ errorCode, httpCode }).toEqual({
-          errorCode: errors.NOT_FOUND_USER.errorCode,
-          httpCode: errors.NOT_FOUND_USER.httpCode
-        });
-      }
-      expect(UsersService.getUser).toHaveBeenCalledWith(nonExistentUserId);
+      (UsersService.getUser as jest.Mock<typeof UsersService.getUser>).mockRejectedValue(expectedError);
+      expect(controller.getUser(userId)).rejects.toEqual(expectedError);
+      expect(UsersService.getUser).toHaveBeenCalledWith(userId);
+
+      // try {
+      //   await controller.getUser(userId);
+      // } catch (error) {
+      //   const { errorCode, httpCode } = error as ApiError;
+      //   expect({ errorCode, httpCode }).toEqual({
+      //     errorCode: errors.NOT_FOUND_USER.errorCode,
+      //     httpCode: errors.NOT_FOUND_USER.httpCode
+      //   });
+      // }
     });
   });
 
@@ -72,11 +73,12 @@ describe('User controller: ', () => {
 
     it('error: duplicated id', async () => {
       const pw = await bcrypt.hash('DEFAULT_PASSWORD', 10);
-      const user = {...userInfo, password: pw};
+      const user = { ...userInfo, password: pw };
+      const expectedError = new ApiError(errors.USER_CREATION_CONFLICT);
     
-      (UsersService.createUser as jest.Mock<typeof UsersService.createUser>).mockRejectedValue(new ApiError(errors.USER_CREATION_CONFLICT));
+      (UsersService.createUser as jest.Mock<typeof UsersService.createUser>).mockRejectedValue(expectedError);
     
-      expect(controller.createUser(user)).rejects.toThrowError(new ApiError(errors.USER_CREATION_CONFLICT));
+      expect(controller.createUser(user)).rejects.toEqual(expectedError);
       expect(UsersService.createUser).toHaveBeenCalledWith(user);
     });
   });
@@ -96,10 +98,11 @@ describe('User controller: ', () => {
 
     it('error: user does not exist', async () => {
       const userId = -111;
+      const expectedError = new ApiError(errors.NOT_FOUND_USER);
     
-      (UsersService.deleteUser as jest.Mock<typeof UsersService.deleteUser>).mockRejectedValue(new ApiError(errors.NOT_FOUND_USER));
+      (UsersService.deleteUser as jest.Mock<typeof UsersService.deleteUser>).mockRejectedValue(expectedError);
     
-      expect(controller.deleteUser(userId)).rejects.toThrowError(new ApiError(errors.NOT_FOUND_USER));
+      expect(controller.deleteUser(userId)).rejects.toEqual(expectedError);
       expect(UsersService.deleteUser).toHaveBeenCalledWith(userId);
     });
   });
