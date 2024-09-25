@@ -10,5 +10,5 @@ module.exports = {
   moduleNameMapper: {
     '^root/prisma/(.*)$': '<rootDir>/prisma/$1',
   },
-  setupFilesAfterEnv: ['<rootDir>/src/singleton.ts'],
+  setupFilesAfterEnv: ['<rootDir>/src/tests/prismaMock.ts'],
 };
