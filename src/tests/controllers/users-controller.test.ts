@@ -29,9 +29,9 @@ describe('User controller: ', () => {
       const user: User = { ...userInfo, password: pw };
 
       (UsersService.getUser as jest.Mock<typeof UsersService.getUser>).mockResolvedValue(user);
-      const response = await controller.getUser(1);
+      const response = await controller.getUser(user.id);
 
-      expect(UsersService.getUser).toHaveBeenCalled();
+      expect(UsersService.getUser).toHaveBeenCalledWith(user.id);
       expect(response).toEqual(user);
     });
   });

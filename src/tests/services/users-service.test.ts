@@ -27,8 +27,10 @@ describe('User service: ', () => {
       const pw = await genPassword('DEFAULT_PASSWORD');
       const user = { ...userInfo, password: pw };
       
-      prismaMock.user.findUnique.mockResolvedValue(user); 
-      expect(await db.user.findUnique(({ where: { id: user.id } }))).toEqual(user);
+      prismaMock.user.findUnique.mockResolvedValue(user);
+      expect(await db.user.findUnique(({ where: { id: user.id } })))
+        .toEqual(user);
+      expect(db.user.findUnique).toHaveBeenCalledWith({ where: { id: user.id } });
     });
 
     test('error: user does not exist', async () => {
@@ -58,6 +60,13 @@ describe('User service: ', () => {
         lastname: user.lastname,
         password: user.password
       });
+      expect(db.user.create).toHaveBeenCalledWith({
+        data: {
+          email: user.email,
+          name: user.name,
+          lastname: user.lastname,
+          password: user.password
+        }});
     });
 
     test('error: duplicated id', async () => {
@@ -67,10 +76,6 @@ describe('User service: ', () => {
       
       prismaMock.user.create.mockRejectedValue(expectedError);
       expect(db.user.create({ data: { ...userParams } })).rejects.toEqual(expectedError);
-
-      // .rejects.toMatchObject({...new ApiError(errors.USER_CREATION_CONFLICT)});
-      // .rejects.toMatchObject({...new ApiError({ httpCode: 422666, errorCode: 422_001, description: 'User already exists' })});
-
       expect(db.user.create).toHaveBeenCalledWith({data: {...userParams}});
     });
   });
@@ -82,6 +87,7 @@ describe('User service: ', () => {
       
       prismaMock.user.delete.mockResolvedValue(user); 
       await expect(db.user.delete({where: { id: user.id }})).resolves.toEqual(user);
+      expect(db.user.delete).toHaveBeenCalledWith({ where: { id: user.id } });
     });
 
     test('error: user does not exist', async () => {
@@ -91,7 +97,6 @@ describe('User service: ', () => {
       prismaMock.user.delete.mockRejectedValue(expectedError);
       expect(db.user.delete({ where: { id: fakeUserId } })).rejects.toEqual(expectedError);
       expect(db.user.delete).toHaveBeenCalledWith({ where: { id: fakeUserId } });
-      
     });
   });
 });
