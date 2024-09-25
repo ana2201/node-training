@@ -2,9 +2,9 @@ import { expect, it, describe, jest } from '@jest/globals';
 import { faker } from '@faker-js/faker';
 import bcrypt from 'bcrypt';
 
-import { UsersService } from '../../services/users-service';
-import { UsersController } from '../../controllers/users-controller';
-import { User, UserCreationParams } from '../../types/user';
+import { UsersService } from 'services/users-service';
+import { UsersController } from 'controllers/users-controller';
+import { User, UserCreationParams } from 'types/user';
 
 jest.mock('../../services/users-service');
 

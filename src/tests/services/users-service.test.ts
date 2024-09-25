@@ -2,12 +2,11 @@ import { expect, test, describe } from '@jest/globals';
 import { faker } from '@faker-js/faker';
 import bcrypt from 'bcrypt';
 
-import { prismaMock } from '../prismaMock';
-import { UserCreationParams } from '../../types/user';
+import { prismaMock } from 'tests/prismaMock';
+import { errors } from 'utils/errors';
+import { ApiError } from 'utils/apiError'; 
+import { UserCreationParams } from 'types/user';
 import db from '../../../prisma/db';
-import { errors } from '../../utils/errors';
-import { ApiError } from '../../utils/apiError';
-
 
 const genPassword = async (password: string) => {
   const salt = await bcrypt.genSalt(10);

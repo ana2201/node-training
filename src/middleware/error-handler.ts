@@ -1,15 +1,16 @@
 import { Response,  Request, NextFunction } from 'express';
 import { ValidateError } from 'tsoa';
 
-import { ApiError } from '../utils/apiError';
-import { ErrorInterface } from '../types/error';
-import { errors } from '../utils/errors';
+import { ApiError } from 'utils/apiError';
+import { ErrorInterface } from 'types/error';
+import { errors } from 'utils/errors';
 
 export function notFoundHandler(_req: Request,res: Response) {
   res.status(404).send({  message: 'Page not found' });
 }
 
 export function errorHandler(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   err: any,
   req:  Request,
   res:  Response,
