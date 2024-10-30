@@ -8,8 +8,8 @@ import {
   Delete
 } from 'tsoa';
 
-import { UsersService } from 'services/users-service';
-import { UserCreationParams } from 'types/user';
+import { UsersService } from '../services/users-service';
+import { UserCreationParams } from '../types/user';
 
 @Route('users')
 export class UsersController extends Controller {

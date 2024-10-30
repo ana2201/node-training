@@ -1,10 +1,10 @@
 import { expect, it, describe } from '@jest/globals';
 import { faker } from '@faker-js/faker';
 
-import { prismaMock } from 'tests/prismaMock';
-import { errors } from 'utils/errors';
-import { ApiError } from 'utils/apiError'; 
-import { UserCreationParams } from 'types/user';
+import { prismaMock } from '../../tests/prismaMock';
+import { errors } from '../../utils/errors';
+import { ApiError } from '../../utils/apiError'; 
+import { UserCreationParams } from '../../types/user';
 import db from '../../../prisma/db';
 
 const userInfo = { 

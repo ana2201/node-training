@@ -1,8 +1,8 @@
 import { PrismaClient, Prisma } from '@prisma/client';
 
-import { User, UserCreationParams } from 'types/user';
-import { ApiError } from 'utils/apiError';
-import { errors } from 'utils/errors';
+import { User, UserCreationParams } from '../types/user';
+import { ApiError } from '../utils/apiError';
+import { errors } from '../utils/errors';
 
 const prisma = new PrismaClient();
 

@@ -5,7 +5,7 @@ import helmet from 'helmet';
 
 import { RegisterRoutes } from '../build/routes';
 
-import { errorHandler, notFoundHandler } from 'middleware/error-handler';
+import { errorHandler, notFoundHandler } from './middleware/error-handler';
 
 const app = express();
 

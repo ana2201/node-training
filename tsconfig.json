@@ -2,15 +2,7 @@
   "compilerOptions": {
     /* Language and Environment */
     "target": "es2016",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
-    "baseUrl": "src",   
-    "paths": {
-      "controllers/*": ["controllers/*"],
-      "middleware/*": ["middleware/*"],
-      "services/*": ["services/*"],
-      "tests/*": ["tests/*"],
-      "types/*": ["types/*"],
-      "utils/*": ["utils/*"],
-    },
+    "baseUrl": "./src",
     /* Modules */
     "module": "commonjs",                                /* Specify what module code is generated. */
     // "rootDir": "./src",                                  /* Specify the root folder within your source files. */                        /* Conditions to set in addition to the resolver-specific defaults when resolving imports. */
