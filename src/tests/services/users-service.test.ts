@@ -1,6 +1,5 @@
-import { expect, test, describe } from '@jest/globals';
+import { expect, it, describe } from '@jest/globals';
 import { faker } from '@faker-js/faker';
-import bcrypt from 'bcrypt';
 
 import { prismaMock } from 'tests/prismaMock';
 import { errors } from 'utils/errors';
@@ -8,23 +7,18 @@ import { ApiError } from 'utils/apiError';
 import { UserCreationParams } from 'types/user';
 import db from '../../../prisma/db';
 
-const genPassword = async (password: string) => {
-  const salt = await bcrypt.genSalt(10);
-  return bcrypt.hash(password, salt);
-};
-
 const userInfo = { 
   id: 1,
   email: faker.internet.email(),
   name: faker.person.firstName(),
   lastname: faker.person.lastName(),
 };
+const seed = 7;
 
 describe('User service: ', () => {
-  
   describe('Get User', () => {
-    test('success', async () => {
-      const pw = await genPassword('DEFAULT_PASSWORD');
+    it('should get user by id', async () => {
+      const pw = faker.seed(seed).toString();
       const user = { ...userInfo, password: pw };
       
       prismaMock.user.findUnique.mockResolvedValue(user);
@@ -33,44 +27,27 @@ describe('User service: ', () => {
       expect(db.user.findUnique).toHaveBeenCalledWith({ where: { id: user.id } });
     });
 
-    test('error: user does not exist', async () => {
+    it('should throw an error: user does not exist', async () => {
       const fakeUserId = -999;
-      const expectedError = new ApiError(errors.NOT_FOUND_USER);
 
-      prismaMock.user.findUnique.mockRejectedValue(expectedError); 
-      expect(db.user.findUnique(({ where: { id: fakeUserId } }))).rejects.toEqual(expectedError);
+      prismaMock.user.findUnique.mockRejectedValue(null); 
+      expect(db.user.findUnique(({ where: { id: fakeUserId } }))).rejects.toEqual(null);
       expect(db.user.findUnique).toHaveBeenCalledWith({ where: { id: fakeUserId } });
     });
   });
 
   describe('Create User', () => {
-    test('success', async () => {
-      const pw = await genPassword('DEFAULT_PASSWORD');
+    it('should create user successfully', async () => {
+      const pw = faker.seed(seed).toString();
       const user = { ...userInfo, password: pw };
       
       prismaMock.user.create.mockResolvedValue(user); 
-      await expect(db.user.create({data: {
-        email: user.email,
-        name: user.name,
-        lastname: user.lastname,
-        password: user.password
-      }})).resolves.toMatchObject({
-        email: user.email,
-        name: user.name,
-        lastname: user.lastname,
-        password: user.password
-      });
-      expect(db.user.create).toHaveBeenCalledWith({
-        data: {
-          email: user.email,
-          name: user.name,
-          lastname: user.lastname,
-          password: user.password
-        }});
+      await expect(db.user.create({data: {...user}})).resolves.toMatchObject({...user});
+      expect(db.user.create).toHaveBeenCalledWith({data: {...user}});
     });
 
-    test('error: duplicated id', async () => {
-      const pw = await genPassword('DEFAULT_PASSWORD');
+    it('should throw an error: duplicated id', async () => {
+      const pw = faker.seed(seed).toString();
       const userParams: UserCreationParams = { ...userInfo, password: pw };
       const expectedError = new ApiError(errors.USER_CREATION_CONFLICT);
       
@@ -81,8 +58,8 @@ describe('User service: ', () => {
   });
 
   describe('Delete User', () => {
-    test('should delete user successfully', async () => {
-      const pw = await genPassword('DEFAULT_PASSWORD');
+    it('should delete user successfully', async () => {
+      const pw = faker.seed(seed).toString();
       const user = { ...userInfo, password: pw };
       
       prismaMock.user.delete.mockResolvedValue(user); 
@@ -90,12 +67,11 @@ describe('User service: ', () => {
       expect(db.user.delete).toHaveBeenCalledWith({ where: { id: user.id } });
     });
 
-    test('error: user does not exist', async () => {
-      const fakeUserId = -999;
-      const expectedError = new ApiError(errors.NOT_FOUND_USER);
+    it('should throw an error: user does not exist', async () => {
+      const fakeUserId = -999; 
       
-      prismaMock.user.delete.mockRejectedValue(expectedError);
-      expect(db.user.delete({ where: { id: fakeUserId } })).rejects.toEqual(expectedError);
+      prismaMock.user.delete.mockRejectedValue(null);
+      expect(db.user.delete({ where: { id: fakeUserId } })).rejects.toEqual(null);
       expect(db.user.delete).toHaveBeenCalledWith({ where: { id: fakeUserId } });
     });
   });
