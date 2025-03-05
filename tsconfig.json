@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     /* Language and Environment */
-    "target": "es2016",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "lib": ["ES2021"],
+    "target": "ES2021",                       /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
     "baseUrl": "./src",
     /* Modules */
     "module": "commonjs",                                /* Specify what module code is generated. */

@@ -7,3 +7,4 @@ export interface User {
 }
 
 export type UserCreationParams = Omit<User, 'id'>;
+
