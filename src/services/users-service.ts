@@ -1,6 +1,6 @@
 import { PrismaClient, Prisma } from '@prisma/client';
 
-import { User, UserCreationParams } from '../types/user';
+import {  User, UserCreationParams } from '../types/user';
 import { ApiError } from '../utils/apiError';
 import { errors } from '../utils/errors';
 
@@ -36,5 +36,15 @@ export class UsersService {
 
       throw e;
     }
+  }
+
+  static async deleteUser(id: number): Promise<User> {
+    const user = await prisma.user.findUnique({ where: { id } });
+      
+    if (!user) {
+      throw new ApiError(errors.NOT_FOUND_USER);
+    }
+    
+    return await prisma.user.delete({ where: { id } }); 
   }
 }

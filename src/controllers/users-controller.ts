@@ -4,7 +4,8 @@ import {
   Get,
   Path,
   Route,
-  Body
+  Body,
+  Delete
 } from 'tsoa';
 
 import { UsersService } from '../services/users-service';
@@ -24,6 +25,13 @@ export class UsersController extends Controller {
     @Body() requestBody: UserCreationParams
   ) {
     const user = await UsersService.createUser(requestBody);
+    return user;
+  }
+
+  @Delete('{userId}')
+  public async deleteUser(@Path() userId: number) {
+    const user = await UsersService.deleteUser(userId);
+
     return user;
   }
 }

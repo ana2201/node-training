@@ -10,6 +10,7 @@ export function notFoundHandler(_req: Request,res: Response) {
 }
 
 export function errorHandler(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   err: any,
   req:  Request,
   res:  Response,
