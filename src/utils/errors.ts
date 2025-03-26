@@ -1,4 +1,14 @@
 export const errors = {
+  INVALID_TOKEN: {
+    httpCode: 400,
+    errorCode: 400_003,
+    description: 'Invalid token',
+  },
+  AUTHENTICATION_FAILED: {
+    httpCode: 401,
+    errorCode: 401_001,
+    description: 'Authentication failed',
+  },
   NOT_FOUND_USER: {
     httpCode: 404,
     errorCode: 404_000,
