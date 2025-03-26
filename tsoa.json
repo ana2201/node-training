@@ -8,5 +8,6 @@
   },
   "routes": {
     "routesDir": "build",
+    "authenticationModule": "src/middleware/auth-handler.ts"
   }
 }

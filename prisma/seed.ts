@@ -1,20 +1,14 @@
 import { PrismaClient } from '@prisma/client';
 
 import { faker } from '@faker-js/faker';
-import bcrypt from 'bcrypt';
+import { genPassword} from '../src/helpers/utils';
 
 const prisma = new PrismaClient();
 
 faker.seed(11);
 
-const ROUNDS = 10;
 const USERS_AMOUNT = 5;
 const DEFAULT_PASSWORD = 'pasSWord7';
-
-const genPassword = async (password: string) => {
-  const salt = await bcrypt.genSalt(ROUNDS);
-  return bcrypt.hash(password, salt);
-};
 
 const seed = async () => {
   const promises = [];

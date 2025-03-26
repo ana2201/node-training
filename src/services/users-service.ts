@@ -3,6 +3,7 @@ import { PrismaClient, Prisma } from '@prisma/client';
 import {  User, UserCreationParams } from '../types/user';
 import { ApiError } from '../utils/apiError';
 import { errors } from '../utils/errors';
+import { genPassword } from 'helpers/utils';
 
 const prisma = new PrismaClient();
 
@@ -18,13 +19,14 @@ export class UsersService {
   }
 
   static async createUser(userCreationParams: UserCreationParams): Promise<User> {
+    const hashedPassword = await genPassword(userCreationParams.password);
     try {
       const user = await prisma.user.create({
         data: {
           name: userCreationParams.name,
           lastname: userCreationParams.lastname,
           email: userCreationParams.email,
-          password: userCreationParams.password
+          password: hashedPassword
         }
       });
   
